@@ -39,8 +39,11 @@ Game::Game(std::string path)
 : pImpl(std::make_unique<Impl>(path))
 {}
 
-
-Game::~Game(){}
+/** Game Destructor
+ * Preconditions    : N/A
+ * Postconditions   : N/A
+*/
+Game::~Game() = default;
 
 /** getGameName
  * Preconditions    : N/A
@@ -65,7 +68,6 @@ Platform Game::getReleasePlatform() const {
 std::string Game::getPath() const {
     return pImpl->fileName;
 }
-
 
 /** platformToString
  * Preconditions    : N/A
