@@ -5,11 +5,12 @@
 #include <iomanip>
 #include <chrono>
 #include <memory>
+#include <regex>
+#include <unordered_map>
 
 namespace Game {
 
 // Definitions written below Game class
-struct Date;                
 enum class Platform;
 
 
@@ -24,8 +25,6 @@ class Game {
 public:
     friend std::ostream& operator<<(std::ostream& os, const Game& game);
 
-    Game(std::string gameName, Date releaseDate,
-         std::string description, Platform releasePlatform, std::string fileName);
     Game(std::string path);
     ~Game();
     
@@ -39,8 +38,6 @@ public:
 
     // ACCESSORS
     std::string getGameName() const;
-    Date getReleaseDate() const;
-    std::string getDescription() const;
     Platform getReleasePlatform() const;
     std::string getPath() const;
     std::string platformToString() const;
@@ -48,38 +45,6 @@ public:
 private:
     struct Impl;
     std::unique_ptr<Impl> pImpl;
-
-
-};
-
-
-struct Date {
-    int year;
-    enum class Month {
-        JAN = 1,
-        FEB,
-        MARCH,
-        APRIL,
-        MAY,
-        JUNE,
-        JULY,
-        AUG,
-        SEP,
-        OCT,
-        NOV,
-        DEC
-    }month;
-    int day;
-
-    Date(int year, Month month, int day)
-    : year(year), month(month), day(day)
-    {}
-
-    bool operator==(const Date& rhs) {
-        return  rhs.year  == year  &&
-                rhs.month == month &&
-                rhs.day   == day;
-    }
 };
 
 /**
@@ -203,14 +168,14 @@ static std::unordered_map<std::string, Platform> strToPlatform =
 // Microsoft
     {"xbox", Platform::_XBOX},
     {"xbox360/roms", Platform::_XBOX360_ROMS},
-    {"xbox360/roms/xbla", _XBOX360_ROMS_XBLA},
+    {"xbox360/roms/xbla", Platform::_XBOX360_ROMS_XBLA},
 
 // Miscellaneous
     {"3do", Platform::_3D0},
     {"tg16", Platform::_TG16},
     {"pcengine", Platform::_PCENGINE},
     {"tg-cd", Platform::_TGCD},
-    {"pcengingecd", Platform_PCENGINECD},
+    {"pcengingecd", Platform::_PCENGINECD},
     {"wonderswan", Platform::_WONDERSWAN},
 
 // Nintendo
@@ -243,7 +208,7 @@ static std::unordered_map<std::string, Platform> strToPlatform =
     {"c16", Platform::_C16},
     {"c64", Platform::_C64},
     {"vic20", Platform::_VIC20},
-    {"dos", Platform::DOS},
+    {"dos", Platform::_DOS},
     {"pc98", Platform::_PC98},
     {"x68000", Platform::_X68000},
     {"zxspectrum", Platform::_ZXSPECTRUM},
@@ -267,13 +232,11 @@ static std::unordered_map<std::string, Platform> strToPlatform =
     {"psp", Platform::_PSP},
     {"psvita", Platform::_PSVITA},
 
-}
+};
 
 static struct PrintFormat {
     const int NAME_WIDTH        = 30;
     const int PLATFORM_WIDTH    = 20;
-    const int DATE_WIDTH        = 12;
-    const int DESCR_WIDTH       = 50;
 }f;
 
 } // end namespace Game
