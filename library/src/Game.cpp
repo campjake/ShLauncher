@@ -8,48 +8,40 @@ namespace Game {
 */
 struct Game::Impl {
     std::string name;           // Title of Game
-    Date releaseDate;           // Date of Release
-    int userRating;             // User's Rating (unset by default)
-    std::string description;    // Brief description
+    // std::string noIntroName;    // No-Intro Formatted Game Title
+    // Date releaseDate;           // Date of Release
+    // int userRating;             // User's Rating (unset by default)
+    // std::string description;    // Brief description
     Platform releasePlatform;   // Platform/Version of Game
     std::string fileName;       // Absolute path to Game File
 
+    Impl(std::string path) 
+    : fileName(path)
+    {
+        std::regex namePat(".*/([^/]+)\\.");
+        std::regex platPat(".*/([^/]+)/[^/]+\\.");
+        std::smatch nameMatch;
+        std::smatch platMatch;
+        if(std::regex_search(path, nameMatch, namePat)) {
+            name = nameMatch[1];
+        }
+        if(std::regex_search(path, platMatch, platPat)) {
+            releasePlatform = strToPlatform.find(platMatch[1])->second;
+        }
 
-    Impl(std::string name, Date releaseDate,
-        std::string description, Platform releasePlatform, 
-        std::string fileName)
-        :   name(name), releaseDate(releaseDate),
-            description(description), releasePlatform(releasePlatform),
-            fileName(fileName)
-    {}
-
-    Impl(std::string path) {
-        
     }
 
     ~Impl(){}
 };
 
 
-/** Game Constructor (Full Details) 
- * Preconditions    : Must be constructed from predefined game
- * Postconditions   : Creates a game with valid state, no user rating.
-*/
-Game::Game(std::string gameName, Date releaseDate,
-    std::string description, Platform releasePlatform, std::string fileName)
-: pImpl(std::make_unique<Impl>( gameName, releaseDate, description,
-                                releasePlatform, fileName))
-{}
-
 /** Game Constructor (Path Only) 
  * Preconditions    : File path must exist
  * Postconditions   : Creates a game with valid state.
 */
 Game::Game(std::string path) 
-: pImpl
-{
-
-}
+: pImpl(std::make_unique<Impl>(path))
+{}
 
 
 Game::~Game(){}
@@ -62,21 +54,21 @@ std::string Game::getGameName() const {
     return pImpl->name;
 }
 
-/** getReleaseDate
- * Preconditions    : N/A
- * Postconditions   : Returns a Date that maps the the Game's release Date
-*/
-Date Game::getReleaseDate() const {
-    return pImpl->releaseDate;
-}
+// /** getReleaseDate
+//  * Preconditions    : N/A
+//  * Postconditions   : Returns a Date that maps the the Game's release Date
+// */
+// Date Game::getReleaseDate() const {
+//     return pImpl->releaseDate;
+// }
 
-/** getDescription
- * Preconditions    : N/A
- * Postconditions   : Returns a Date that maps the the Game's release Date
-*/
-std::string Game::getDescription() const {
-    return pImpl->description;
-}
+// /** getDescription
+//  * Preconditions    : N/A
+//  * Postconditions   : Returns a Date that maps the the Game's release Date
+// */
+// std::string Game::getDescription() const {
+//     return pImpl->description;
+// }
 
 /** getReleasePlatform
  * Preconditions    : N/A
@@ -189,7 +181,7 @@ std::string Game::platformToString() const{
             return "Amiga 1200";
         case Platform::_AMIGACD32:
             return "Amiga CD32";
-        case Platform::_AMSTRACPC:
+        case Platform::_AMSTRADCPC:
             return "Amstrad CPC";
         case Platform::_C16:
             return "Commodore 16";
@@ -201,7 +193,7 @@ std::string Game::platformToString() const{
             return "DOS";
         case Platform::_PC98:
             return "PC-98";
-        case Platform::_X86000:
+        case Platform::_X68000:
             return "X68000";
         case Platform::_ZXSPECTRUM:
             return "ZX Spectrum";
