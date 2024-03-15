@@ -23,14 +23,34 @@ struct Game::Impl {
             fileName(fileName)
     {}
 
+    Impl(std::string path) {
+        
+    }
+
     ~Impl(){}
 };
 
+
+/** Game Constructor (Full Details) 
+ * Preconditions    : Must be constructed from predefined game
+ * Postconditions   : Creates a game with valid state, no user rating.
+*/
 Game::Game(std::string gameName, Date releaseDate,
     std::string description, Platform releasePlatform, std::string fileName)
 : pImpl(std::make_unique<Impl>( gameName, releaseDate, description,
                                 releasePlatform, fileName))
 {}
+
+/** Game Constructor (Path Only) 
+ * Preconditions    : File path must exist
+ * Postconditions   : Creates a game with valid state.
+*/
+Game::Game(std::string path) 
+: pImpl
+{
+
+}
+
 
 Game::~Game(){}
 

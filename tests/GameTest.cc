@@ -2,10 +2,16 @@
 #include "Game.hpp"
 #include <iostream>
 
-TEST(DefaultCtor, BasicAssertions) {
+TEST(FullCtor, BasicAssertions) {
     Game::Date releaseDate(1994, Game::Date::Month::JUNE, 29);
     Game::Game myGame("Jake Game", releaseDate, "Jake's Cool RPG Game",
                     Game::Platform::_FBNEO, "Jake/Campbell/Game.bin"); 
+}
+
+TEST(PathCtor, BasicAssertions) {
+    std::string file = "Pokemon Mystery Dungeon - Explorers of Time (USA).nds";
+    std::string path = "/d/Games/nds/" + file;
+    Game::Game pkmnMD(path);
 }
 
 TEST(GamePrint, BasicAssertions) {
