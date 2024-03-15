@@ -11,7 +11,6 @@
 namespace Game {
 
 // Definitions written below Game class
-struct Date;                
 enum class Platform;
 
 
@@ -46,36 +45,6 @@ public:
 private:
     struct Impl;
     std::unique_ptr<Impl> pImpl;
-};
-
-
-struct Date {
-    int year;
-    enum class Month {
-        JAN = 1,
-        FEB,
-        MARCH,
-        APRIL,
-        MAY,
-        JUNE,
-        JULY,
-        AUG,
-        SEP,
-        OCT,
-        NOV,
-        DEC
-    }month;
-    int day;
-
-    Date(int year, Month month, int day)
-    : year(year), month(month), day(day)
-    {}
-
-    bool operator==(const Date& rhs) {
-        return  rhs.year  == year  &&
-                rhs.month == month &&
-                rhs.day   == day;
-    }
 };
 
 /**
@@ -268,8 +237,6 @@ static std::unordered_map<std::string, Platform> strToPlatform =
 static struct PrintFormat {
     const int NAME_WIDTH        = 30;
     const int PLATFORM_WIDTH    = 20;
-    const int DATE_WIDTH        = 12;
-    const int DESCR_WIDTH       = 50;
 }f;
 
 } // end namespace Game
