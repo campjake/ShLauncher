@@ -30,7 +30,7 @@ TEST(PlatformToString, BasicAssertions) {
     Game::Game myGame("Jake Game", releaseDate, "Jake's Cool RPG Game",
                     Game::Platform::_GBA, "Jake/Campbell/Game.bin");
 
-    const std::string s = myGame.platformToString();
+    std::string s = myGame.platformToString();
 
     ASSERT_EQ(s, "Game Boy Advance");
 }
@@ -61,4 +61,23 @@ TEST(Description, BasicAssertions) {
                     Game::Platform::_GBA, "Jake/Campbell/Game.bin");
 
     ASSERT_EQ(description, myGame.getDescription());
+}
+
+TEST(Platform, BasicAssertions) {
+    Game::Date releaseDate(1994, Game::Date::Month::JUNE, 29);
+    std::string description = "Jake's Cool RPG Game";
+    Game::Game myGame("Jake Game", releaseDate, description,
+                    Game::Platform::_GBA, "Jake/Campbell/Game.bin");
+
+    ASSERT_EQ(Game::Platform::_GBA, myGame.getReleasePlatform());
+}
+
+TEST(FilePath, BasicAssertions) {
+    Game::Date releaseDate(1994, Game::Date::Month::JUNE, 29);
+    std::string description = "Jake's Cool RPG Game";
+    std::string fPath = "/Jake/Campbell/Game.bin";
+    Game::Game myGame("Jake Game", releaseDate, description,
+                    Game::Platform::_GBA, fPath);
+
+    ASSERT_EQ(fPath, myGame.getPath());
 }

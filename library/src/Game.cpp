@@ -7,12 +7,12 @@ namespace Game {
  * which will manage this object for its lifetime
 */
 struct Game::Impl {
-    std::string name;
-    Date releaseDate;
-    int userRating;
-    std::string description;
-    Platform releasePlatform;
-    std::string fileName;
+    std::string name;           // Title of Game
+    Date releaseDate;           // Date of Release
+    int userRating;             // User's Rating (unset by default)
+    std::string description;    // Brief description
+    Platform releasePlatform;   // Platform/Version of Game
+    std::string fileName;       // Absolute path to Game File
 
 
     Impl(std::string name, Date releaseDate,
@@ -54,12 +54,32 @@ Date Game::getReleaseDate() const {
  * Preconditions    : N/A
  * Postconditions   : Returns a Date that maps the the Game's release Date
 */
+std::string Game::getDescription() const {
+    return pImpl->description;
+}
+
+/** getReleasePlatform
+ * Preconditions    : N/A
+ * Postconditions   : Returns a Platform that maps the the Game's Platform
+*/
+Platform Game::getReleasePlatform() const {
+    return pImpl->releasePlatform;
+}
+
+/** getPath
+ * Preconditions    : N/A
+ * Postconditions   : Returns a string that maps the the Game's file path
+*/
+std::string Game::getPath() const {
+    return pImpl->fileName;
+}
+
 
 /** platformToString
  * Preconditions    : N/A
  * Postconditions   : Returns a string that maps to the Game's platform
 */
-const std::string Game::platformToString() const{
+std::string Game::platformToString() const{
     switch (pImpl->releasePlatform) {
         case Platform::_FBNEO:
             return "FBNeo";

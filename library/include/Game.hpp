@@ -5,7 +5,6 @@
 #include <iomanip>
 #include <chrono>
 #include <memory>
-#include <variant>
 
 namespace Game {
 
@@ -41,15 +40,17 @@ public:
     std::string getGameName() const;
     Date getReleaseDate() const;
     std::string getDescription() const;
-    // std::variant getReleasePlatform(const bool& asString = true) const;
-     const std::string platformToString() const;
-    // std::string getFileName() const;
+    Platform getReleasePlatform() const;
+    std::string getPath() const;
+    std::string platformToString() const;
 
 
 
 private:
     struct Impl;
     std::unique_ptr<Impl> pImpl;
+
+
 };
 
 
@@ -87,6 +88,9 @@ struct Date {
  * May return to reorganize or pare down to rescope project. Not comprehensive list of every system ever released.
 */
 enum class Platform {
+// Unspecefied
+    _NONE,
+
 // Arcade and MAME
     _FBNEO,
     _MAME2003,
@@ -170,7 +174,7 @@ enum class Platform {
     _PS2,
     _PS3,
     _PSP,
-    _PSVITA
+    _PSVITA,
 };
 
 static struct PrintFormat {
