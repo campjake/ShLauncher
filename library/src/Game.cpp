@@ -8,10 +8,6 @@ namespace Game {
 */
 struct Game::Impl {
     std::string name;           // Title of Game
-    // std::string noIntroName;    // No-Intro Formatted Game Title
-    // Date releaseDate;           // Date of Release
-    // int userRating;             // User's Rating (unset by default)
-    // std::string description;    // Brief description
     Platform releasePlatform;   // Platform/Version of Game
     std::string fileName;       // Absolute path to Game File
 
@@ -53,22 +49,6 @@ Game::~Game(){}
 std::string Game::getGameName() const {
     return pImpl->name;
 }
-
-// /** getReleaseDate
-//  * Preconditions    : N/A
-//  * Postconditions   : Returns a Date that maps the the Game's release Date
-// */
-// Date Game::getReleaseDate() const {
-//     return pImpl->releaseDate;
-// }
-
-// /** getDescription
-//  * Preconditions    : N/A
-//  * Postconditions   : Returns a Date that maps the the Game's release Date
-// */
-// std::string Game::getDescription() const {
-//     return pImpl->description;
-// }
 
 /** getReleasePlatform
  * Preconditions    : N/A

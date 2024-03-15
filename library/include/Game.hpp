@@ -39,8 +39,6 @@ public:
 
     // ACCESSORS
     std::string getGameName() const;
-    Date getReleaseDate() const;
-    std::string getDescription() const;
     Platform getReleasePlatform() const;
     std::string getPath() const;
     std::string platformToString() const;
@@ -48,8 +46,6 @@ public:
 private:
     struct Impl;
     std::unique_ptr<Impl> pImpl;
-
-
 };
 
 
