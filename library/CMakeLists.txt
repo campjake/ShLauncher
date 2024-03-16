@@ -5,8 +5,10 @@ project(ShLauncher)
 # An OBJECT-library, used only to compile common sources once
 add_library(ShLauncherLibrary)     
 target_sources(ShLauncherLibrary
-    PRIVATE   "${CMAKE_CURRENT_SOURCE_DIR}/src/Game.cpp"
+    PRIVATE  "${CMAKE_CURRENT_SOURCE_DIR}/src/Game.cpp"
+    PRIVATE  "${CMAKE_CURRENT_SOURCE_DIR}/src/GameDir.cpp" 
     PUBLIC   "${CMAKE_CURRENT_SOURCE_DIR}/include/Game.hpp"
+    PUBLIC   "${CMAKE_CURRENT_SOURCE_DIR}/include/GameDir.hpp"
 )
 
 #Required include search-paths

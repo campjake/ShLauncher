@@ -1,12 +1,5 @@
 #include <gtest/gtest.h>
 #include "Game.hpp"
-#include <iostream>
-
-// TEST(FullCtor, BasicAssertions) {
-//     Game::Date releaseDate(1994, Game::Date::Month::JUNE, 29);
-//     Game::Game myGame("Jake Game", releaseDate, "Jake's Cool RPG Game",
-//                     Game::Platform::_FBNEO, "Jake/Campbell/Game.bin"); 
-// }
 
 TEST(PathCtor, BasicAssertions) {
     std::string file = "Pokemon Mystery Dungeon - Explorers of Time (USA).nds";
@@ -48,23 +41,6 @@ TEST(GameName, BasicAssertions) {
 
     ASSERT_EQ(pkmnMD.getGameName(), "Pokemon Mystery Dungeon - Explorers of Time (USA)");
 }
-
-// TEST(ReleaseDate, BasicAssertions) {
-//     Game::Date releaseDate(1994, Game::Date::Month::JUNE, 29);  
-//     Game::Game myGame("Jake Game", releaseDate, "Jake's Cool RPG Game",
-//                     Game::Platform::_GBA, "Jake/Campbell/Game.bin");
-    
-//     ASSERT_EQ(releaseDate.year, myGame.getReleaseDate().year);
-// }
-
-// TEST(Description, BasicAssertions) {
-//     Game::Date releaseDate(1994, Game::Date::Month::JUNE, 29);
-//     std::string description = "Jake's Cool RPG Game";
-//     Game::Game myGame("Jake Game", releaseDate, description,
-//                     Game::Platform::_GBA, "Jake/Campbell/Game.bin");
-
-//     ASSERT_EQ(description, myGame.getDescription());
-// }
 
 TEST(Platform, BasicAssertions) {
     std::string file = "Pokemon Mystery Dungeon - Explorers of Time (USA).nds";

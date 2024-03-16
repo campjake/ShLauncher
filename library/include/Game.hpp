@@ -241,4 +241,4 @@ static struct PrintFormat {
 
 } // end namespace Game
 
-#endif // GAM_HPP
+#endif // GAME_HPP

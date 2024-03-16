@@ -21,6 +21,7 @@ add_subdirectory(library)
 add_executable(
   game_test
   tests/GameTest.cc
+  tests/GameDirTest.cc
 )
 target_link_libraries(
   game_test
