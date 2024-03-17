@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.14)
 project(shLauncher)
 
-# GoogleTest requires at least C++14
-set(CMAKE_CXX_STANDARD 14)
+# GoogleTest requires at least C++20!!!
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 include(FetchContent)
@@ -28,6 +28,8 @@ target_link_libraries(
   GTest::gtest_main
   ShLauncherLibrary
 )
+
+target_compile_features(game_test PUBLIC cxx_std_20)
 
 include(GoogleTest)
 gtest_discover_tests(game_test)

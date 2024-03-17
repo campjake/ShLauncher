@@ -7,6 +7,9 @@
 #include <memory>
 #include <regex>
 #include <unordered_map>
+#include <filesystem>
+
+namespace fs = std::filesystem;
 
 namespace Game {
 
@@ -25,7 +28,8 @@ class Game {
 public:
     friend std::ostream& operator<<(std::ostream& os, const Game& game);
 
-    Game(std::string path);
+    Game(const std::string& path);
+    Game(const fs::path& path);
     ~Game();
     
     // Should never create copies of Games
@@ -41,6 +45,9 @@ public:
     Platform getReleasePlatform() const;
     std::string getPath() const;
     std::string platformToString() const;
+
+    // OPERATORS
+    bool operator==(const Game& rhs) const;
 
 private:
     struct Impl;

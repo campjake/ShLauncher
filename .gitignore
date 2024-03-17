@@ -33,3 +33,5 @@
 
 # Google Test
 build
+.vscode
+data

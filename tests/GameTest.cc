@@ -1,10 +1,24 @@
 #include <gtest/gtest.h>
 #include "Game.hpp"
 
-TEST(PathCtor, BasicAssertions) {
+namespace fs = std::filesystem;
+
+
+TEST(PathStrCtor, BasicAssertions) {
     std::string file = "Pokemon Mystery Dungeon - Explorers of Time (USA).nds";
     std::string path = "/d/Games/nds/" + file;
     Game::Game pkmnMD(path);
+}
+
+TEST(PathCtor, BasicAssertions) {
+    std::string file = "Pokemon Mystery Dungeon - Explorers of Time (USA).nds";
+    std::string pathString = "/d/Games/nds/" + file;
+    Game::Game pkmnMDStr(pathString);
+
+    fs::path pathObject(pathString);
+    Game::Game pkmnMDPath(pathObject);
+
+    ASSERT_EQ(pkmnMDStr, pkmnMDPath);
 }
 
 TEST(GamePrint, BasicAssertions) {
