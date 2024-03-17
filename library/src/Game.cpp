@@ -6,6 +6,7 @@ namespace Game {
  * Used for Pointer to Implementation (pImpl),
  * which will manage this object for its lifetime
 */
+// TODO - Error prone instantiation of release platform, not guaranteed to be correct
 struct Game::Impl {
     std::string name;           // Title of Game
     Platform releasePlatform;   // Platform/Version of Game
@@ -70,6 +71,14 @@ Game::Game(const fs::path& path)
  * Postconditions   : N/A
 */
 Game::~Game() = default;
+
+/** Game Move Constructor
+ * Preconditions    : A valid existing Game object
+ * Postconditions   : Leaves "other" in a valid & destructible state
+*/
+Game::Game(Game&& other) noexcept 
+: pImpl(std::move(other.pImpl))
+{}
 
 /** getGameName
  * Preconditions    : N/A

@@ -12,7 +12,10 @@ public:
     GameDir(const std::string& path);
     GameDir(const fs::path& path);
 
+    ~GameDir();
+
     const std::vector<Game::Game>& getGames() const;
+    Game::Platform getPlatform() const;
 
 
 private:
