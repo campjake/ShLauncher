@@ -16,11 +16,14 @@ TEST(DirPathCtor2, BasicAssertions) {
     Game::Game pkmnMD(path);
 }
 
-// TEST(GetGames, BasicAssertions) {
-//     std::string file = "Pokemon Mystery Dungeon - Explorers of Time (USA).nds";
-//     std::string path = "/d/Games/nds/" + file;
-//     Game::Game pkmnMD(path);
-// }
+TEST(PrintGames, BasicAssertions) {
+    std::string dirPath = "/home/jacoblc/ShLauncher/data/gba/";
+    fs::path path(dirPath);
+    GameDir::GameDir gba(path);
+
+    std::cout << gba;    
+
+}
 
 TEST(GetConsole, BasicAssertions) {
     std::string dirPath = "/home/jacoblc/ShLauncher/data/gba/";

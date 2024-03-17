@@ -85,7 +85,11 @@ Game::Game(Game&& other) noexcept
  * Postconditions   : Returns a string that maps the the Game's name
 */
 std::string Game::getGameName() const {
-    return pImpl->name;
+    if(pImpl->name.length() > 49) {
+        return pImpl->name.substr(0, 45) + "...";
+    } else {
+        return pImpl->name;
+    }
 }
 
 /** getReleasePlatform
@@ -264,7 +268,7 @@ bool Game::operator==(const Game& rhs) const {
 */
 std::ostream& operator<<(std::ostream& os, const Game& game) {
     const std::string platform = game.platformToString();
-    os  << std::setw(f.NAME_WIDTH)     << std::left << game.pImpl->name
+    os  << std::setw(f.NAME_WIDTH)     << std::left << game.getGameName()
         << std::setw(f.PLATFORM_WIDTH) << std::left << platform
         << std::endl;
     return os;

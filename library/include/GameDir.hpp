@@ -7,8 +7,11 @@ namespace fs = std::filesystem;
 
 namespace GameDir {
 
+
 class GameDir {
 public:
+    friend std::ostream& operator<<(std::ostream& os, const GameDir& gameDir);
+
     GameDir(const std::string& path);
     GameDir(const fs::path& path);
 
