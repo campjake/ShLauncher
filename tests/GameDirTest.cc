@@ -16,6 +16,17 @@ TEST(DirPathCtor2, BasicAssertions) {
     Game::Game pkmnMD(path);
 }
 
+TEST(DirEntryCtor, BasicAssertions) {
+    std::string pathString = "/home/jacoblc/ShLauncher/data/gba";
+    fs::path pathObject(pathString);
+    GameDir::GameDir ndsPathEntry(pathObject);
+
+    fs::directory_entry dirEntryObject(pathObject);
+    GameDir::GameDir ndsDirEntry(dirEntryObject);
+
+    ASSERT_EQ(ndsPathEntry, ndsDirEntry);
+}
+
 TEST(PrintGames, BasicAssertions) {
     std::string dirPath = "/home/jacoblc/ShLauncher/data/gba/";
     fs::path path(dirPath);

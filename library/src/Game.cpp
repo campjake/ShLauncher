@@ -8,9 +8,9 @@ namespace Game {
 */
 // TODO - Error prone instantiation of release platform, not guaranteed to be correct
 struct Game::Impl {
-    std::string name;           // Title of Game
-    Platform releasePlatform;   // Platform/Version of Game
-    fs::path fileName;          // Absolute path to Game File
+    std::string name;               // Title of Game
+    Platform releasePlatform;       // Platform/Version of Game
+    fs::directory_entry fileName;   // Dir Entry for Game File
 
     Impl(std::string path) 
     : fileName(path)
@@ -28,7 +28,7 @@ struct Game::Impl {
 
     }
 
-    Impl(fs::path path) 
+    Impl(const fs::path& path) 
     : fileName(path)
     {
         std::regex namePat(".*/([^/]+)\\.");
@@ -43,14 +43,30 @@ struct Game::Impl {
         if(std::regex_search(pathStr, platMatch, platPat)) {
             releasePlatform = strToPlatform.find(platMatch[1])->second;
         }
+    }
 
+    Impl(const fs::directory_entry& path) 
+    : fileName(path)
+    {
+        std::regex namePat(".*/([^/]+)\\.");
+        std::regex platPat(".*/([^/]+)/[^/]+\\.");
+        std::smatch nameMatch;
+        std::smatch platMatch;
+        std::string pathStr = path.path().string();
+
+        if(std::regex_search(pathStr, nameMatch, namePat)) {
+            name = nameMatch[1];
+        }
+        if(std::regex_search(pathStr, platMatch, platPat)) {
+            releasePlatform = strToPlatform.find(platMatch[1])->second;
+        }
     }
 
     ~Impl(){}
 };
 
 
-/** Game Constructor (Path Only) 
+/** Game Constructor (String) 
  * Preconditions    : File path must exist
  * Postconditions   : Creates a game with valid state.
 */
@@ -58,11 +74,19 @@ Game::Game(const std::string& path)
 : pImpl(std::make_unique<Impl>(path))
 {}
 
-/** Game Constructor (Path Only) 
+/** Game Constructor (Path) 
  * Preconditions    : File path must exist
  * Postconditions   : Creates a game with valid state.
 */
 Game::Game(const fs::path& path)
+: pImpl(std::make_unique<Impl>(path))
+{}
+
+/** Game Constructor (Directory Entry) 
+ * Preconditions    : Directory Entry must exist
+ * Postconditions   : Creates a game with valid state.
+*/
+Game::Game(const fs::directory_entry& path)
 : pImpl(std::make_unique<Impl>(path))
 {}
 
@@ -105,7 +129,7 @@ Platform Game::getReleasePlatform() const {
  * Postconditions   : Returns a string that maps the the Game's file path
 */
 std::string Game::getPath() const {
-    return pImpl->fileName.string();
+    return pImpl->fileName.path().string();
 }
 
 /** platformToString

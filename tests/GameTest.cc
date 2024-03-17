@@ -21,6 +21,19 @@ TEST(PathCtor, BasicAssertions) {
     ASSERT_EQ(pkmnMDStr, pkmnMDPath);
 }
 
+TEST(DirEntry, BasicAssertions) {
+    std::string file = "Pokemon Mystery Dungeon - Explorers of Time (USA).nds";
+    std::string pathString = "/d/Games/nds/" + file;
+    fs::path pathObject(pathString);
+    Game::Game pkmnMDPath(pathObject);
+
+    fs::directory_entry dirEntryObject(pathObject);
+    Game::Game pkmnMDDirEntry(dirEntryObject);
+
+
+    ASSERT_EQ(pkmnMDPath, pkmnMDDirEntry);
+}
+
 TEST(GamePrint, BasicAssertions) {
     // Redirect stdout to a stringstream
     std::stringstream buffer;

@@ -14,11 +14,16 @@ public:
 
     GameDir(const std::string& path);
     GameDir(const fs::path& path);
+    GameDir(const fs::directory_entry& path);
 
     ~GameDir();
 
+// ACCESSORS
     const std::vector<Game::Game>& getGames() const;
     Game::Platform getPlatform() const;
+
+// OPERATORS
+    bool operator==(const GameDir& rhs) const;
 
 
 private:

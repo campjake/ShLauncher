@@ -4,7 +4,7 @@ namespace fs = std::filesystem;
 
 namespace GameDir {
 struct GameDir::Impl {
-    fs::path dirPath;
+    fs::directory_entry dirPath;
     std::vector<Game::Game> gameFiles;
     Game::Platform platform;
     
@@ -14,7 +14,7 @@ struct GameDir::Impl {
         
         for(const auto& file : fs::directory_iterator(dirPath)) {
             if(fs::is_regular_file(file)) {
-                gameFiles.emplace_back(file.path());
+                gameFiles.emplace_back(file.path().string());
             }
         }
 
@@ -28,6 +28,19 @@ struct GameDir::Impl {
         for(const auto& file : fs::directory_iterator(dirPath)) {
             if(fs::is_regular_file(file)) {
                 gameFiles.emplace_back(file.path());
+            }
+        }
+
+        platform = gameFiles.at(0).getReleasePlatform();
+    }
+
+    Impl(const fs::directory_entry& dirPath)
+    : dirPath(dirPath)
+    {
+        
+        for(const auto& file : fs::directory_iterator(dirPath)) {
+            if(fs::is_regular_file(file)) {
+                gameFiles.emplace_back(file);
             }
         }
 
@@ -48,6 +61,14 @@ GameDir::GameDir(const std::string& path)
  * Postconditions   : Constructs a valid GameDir object
 */
 GameDir::GameDir(const fs::path& path)
+: pImpl(std::make_unique<Impl>(path))
+{}
+
+/** GameDir Constructor (Directory Entry Object)
+ * Preconditions    : An std::filestream::directory_entry object
+ * Postconditions   : Constructs a valid GameDir object
+*/
+GameDir::GameDir(const fs::directory_entry& path)
 : pImpl(std::make_unique<Impl>(path))
 {}
 
@@ -72,6 +93,15 @@ const std::vector<Game::Game>& GameDir::getGames() const {
 Game::Platform GameDir::getPlatform() const {
     return pImpl->platform;
 }
+
+/** Operator== Overload
+ * Preconditions    : A GameDir object
+ * Postconditions   : Reutrns true if structurally equivalent, else false
+*/
+bool GameDir::operator==(const GameDir& rhs) const {
+    return pImpl->dirPath == rhs.pImpl->dirPath;
+}
+
 
 /** Operator<< Overload
  * Preconditions    : An ostream object, and a GameDir object

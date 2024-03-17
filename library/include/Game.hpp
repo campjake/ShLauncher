@@ -30,9 +30,10 @@ public:
 
     Game(const std::string& path);
     Game(const fs::path& path);
+    Game(const fs::directory_entry& path);
     ~Game();
     
-    // Should never create copies of Games
+// Should never create copies of Games
     Game(Game& other) = delete;
     Game(const Game& other) = delete;
     Game& operator=(const Game& rhs) = delete;
@@ -40,13 +41,13 @@ public:
     Game(Game&& other) noexcept;
     Game& operator=(Game&& rhs) noexcept;
 
-    // ACCESSORS
+// ACCESSORS
     std::string getGameName() const;
     Platform getReleasePlatform() const;
     std::string getPath() const;
     std::string platformToString() const;
 
-    // OPERATORS
+// OPERATORS
     bool operator==(const Game& rhs) const;
 
 private:
