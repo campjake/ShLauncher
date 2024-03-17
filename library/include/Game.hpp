@@ -242,6 +242,7 @@ static std::unordered_map<std::string, Platform> strToPlatform =
 };
 
 static struct PrintFormat {
+    const int IDX_WIDTH         = 7;
     const int NAME_WIDTH        = 50;
     const int PLATFORM_WIDTH    = 20;
 }f;

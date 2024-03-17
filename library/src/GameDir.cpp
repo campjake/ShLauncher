@@ -79,16 +79,18 @@ Game::Platform GameDir::getPlatform() const {
 */
 std::ostream& operator<<(std::ostream& os, const GameDir& gameDir) {
     // Formatting for Heading
-    os  << std::setw(Game::f.NAME_WIDTH) << std::left << "NAME"
+    os  << std::setw(Game::f.IDX_WIDTH)  << std::left << "INDEX"
+        << std::setw(Game::f.NAME_WIDTH) << std::left << "NAME"
         << std::setw(Game::f.PLATFORM_WIDTH)   << std::left << "PLATFORM"
         << std::endl;
-    os  << std::setfill('-') << std::setw(Game::f.NAME_WIDTH + Game::f.PLATFORM_WIDTH)
+    os  << std::setfill('-') << std::setw(Game::f.IDX_WIDTH + Game::f.NAME_WIDTH + Game::f.PLATFORM_WIDTH)
         << "" << std::endl; 
     os  << std::setfill(' ');   // Return to default (space)
     
+    int i = 1;
     // Add game titles to output stream
     for(const auto& game : gameDir.getGames()) {
-        os << game;
+        os << std::setw(3) << i++ << std::left << " -- " << game;
     }
 
     return os;
