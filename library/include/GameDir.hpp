@@ -2,7 +2,6 @@
 #define GAMEDIR_HPP
 #include "Game.hpp"
 #include <filesystem>
-
 #include <vector>
 
 namespace GameDir {
@@ -10,6 +9,8 @@ namespace GameDir {
 class GameDir {
 public:
     GameDir(const std::string& path);
+
+    const std::vector<Game::Game>& getGames() const;
 
 
 private:

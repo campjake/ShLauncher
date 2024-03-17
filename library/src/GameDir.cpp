@@ -1,10 +1,10 @@
 #include "GameDir.hpp"
 
-namespace fs = std::filesystem; // ignore intellisense errors for fs
+namespace fs = std::filesystem;
 
 namespace GameDir {
 struct GameDir::Impl {
-    std::string dirPath;
+    fs::path dirPath;
     std::vector<Game::Game> gameFiles;
     
 
@@ -23,6 +23,10 @@ struct GameDir::Impl {
 GameDir::GameDir(const std::string& path) 
 : pImpl(std::make_unique<Impl>(path))
 {}
+
+const std::vector<Game::Game>& GameDir::getGames() const {
+    return pImpl->gameFiles;
+}
 
 }
 
