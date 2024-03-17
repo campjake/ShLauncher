@@ -14,6 +14,8 @@ if(Boost_FOUND)
     set_target_properties(  Boost::boost
                             Boost::filesystem
         PROPERTIES IMPORTED_GLOBAL TRUE)
+else()
+message(FATAL_ERROR "Boost not found. Please install Boost or adjust Boost path.")
 endif()
 
 target_link_libraries(ShLauncherLibrary PUBLIC Boost::filesystem)

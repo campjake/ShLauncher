@@ -1,5 +1,7 @@
 #include "GameDir.hpp"
 
+namespace fs = std::filesystem; // ignore intellisense errors for fs
+
 namespace GameDir {
 struct GameDir::Impl {
     std::string dirPath;
@@ -10,8 +12,8 @@ struct GameDir::Impl {
     : dirPath(dirPath)
     {
         
-        for(const auto& file : boost::filesystem::directory_iterator(dirPath)) {
-            if(boost::filesystem::is_regular_file(file)) {
+        for(const auto& file : fs::directory_iterator(dirPath)) {
+            if(fs::is_regular_file(file)) {
                 gameFiles.emplace_back(file.path().filename().string());
             }
         }

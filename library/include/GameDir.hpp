@@ -1,7 +1,8 @@
 #ifndef GAMEDIR_HPP
 #define GAMEDIR_HPP
 #include "Game.hpp"
-#include "boost/filesystem.hpp"
+#include <filesystem>
+
 #include <vector>
 
 namespace GameDir {
