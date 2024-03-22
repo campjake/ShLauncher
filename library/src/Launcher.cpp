@@ -4,7 +4,7 @@ namespace fs = std::filesystem;
 
 namespace Launcher {
 
-struct Impl {
+struct Launcher::Impl {
     fs::directory_entry romsDir;
     std::vector<GameDir::GameDir> gameDirs;
 
@@ -23,17 +23,25 @@ Launcher::Launcher(const fs::path& path)
 : pImpl(std::make_unique<Impl>(path))
 {}
 
-static const fs::path& init() {
-    std::string cache("data/.cache/roms.txt");
-    std::ifstream file(cache);
+Launcher::~Launcher() = default;
 
-    if(!file.is_open() || !(std::getline(file))) {
-        promptAndCreateCache();
+const GameDir::GameDir& Launcher::getGameDir(const std::string& gameDir) {
+    const Game::Platform platform = Game::strToPlatform.at(gameDir); 
+    for(auto& gd : pImpl->gameDirs) {
+        if(gd.getPlatform() == platform) {
+            return gd;
+        }
     }
-
-    const fs::path romsDir(std::getline(file));
-
-    return romsDir;
 }
 
+const Game::Game& Launcher::getGame(const std::string& gameName) const {
+    for(auto& gd : pImpl->gameDirs) {
+        for(const auto& game : gd.getGames()) {
+            if(game.getGameName() == gameName) {
+                return game;
+            }
+        }
+    }
+    throw std::runtime_error("Game not found");
+}
 }

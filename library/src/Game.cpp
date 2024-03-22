@@ -11,9 +11,10 @@ struct Game::Impl {
     std::string name;               // Title of Game
     Platform releasePlatform;       // Platform/Version of Game
     fs::directory_entry fileName;   // Dir Entry for Game File
+    int referenceCount;             // Reference Counter
 
     Impl(std::string path) 
-    : fileName(path)
+    : fileName(path), referenceCount(0)
     {
         std::regex namePat(".*/([^/]+)\\.");
         std::regex platPat(".*/([^/]+)/[^/]+\\.");
@@ -29,7 +30,7 @@ struct Game::Impl {
     }
 
     Impl(const fs::path& path) 
-    : fileName(path)
+    : fileName(path), referenceCount(0)
     {
         std::regex namePat(".*/([^/]+)\\.");
         std::regex platPat(".*/([^/]+)/[^/]+\\.");
@@ -46,7 +47,7 @@ struct Game::Impl {
     }
 
     Impl(const fs::directory_entry& path) 
-    : fileName(path)
+    : fileName(path), referenceCount(0)
     {
         std::regex namePat(".*/([^/]+)\\.");
         std::regex platPat(".*/([^/]+)/[^/]+\\.");

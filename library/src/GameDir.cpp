@@ -78,12 +78,42 @@ GameDir::GameDir(const fs::directory_entry& path)
 */
 GameDir::~GameDir() = default;
 
+/** Move Constructor
+ * Preconditions    : A GameDir object
+ * Postconditions   : Leaves "other" in a valid & destructible state
+*/
+GameDir::GameDir(GameDir&& other) noexcept
+: pImpl(std::move(other.pImpl))
+{}
+
+/** Move Assignment
+ * Preconditions    : A GameDir object
+ * Postconditions   : Leaves "other" in a valid & destructible state
+*/
+GameDir& GameDir::operator=(GameDir&& rhs) noexcept
+{
+    pImpl = std::move(rhs.pImpl);
+    return *this;
+}
+
 /** GetGames
  * Preconditions    : N/A
  * Postconditions   : Returns a vector of Game objects
 */
 const std::vector<Game::Game>& GameDir::getGames() const {
     return pImpl->gameFiles;
+}
+
+/** GetGame
+ * Preconditions    : N/A
+ * Postconditions   : Returns a Game object
+*/
+Game::Game& GameDir::getGame(const std::string& gameName) const {
+    for(int i = 0; i < pImpl->gameFiles.size(); i++) {
+        if(pImpl->gameFiles.at(i).getGameName() == gameName) {
+            return pImpl->gameFiles.at(i);
+        }
+    }
 }
 
 /** GetPlatform
@@ -93,6 +123,15 @@ const std::vector<Game::Game>& GameDir::getGames() const {
 Game::Platform GameDir::getPlatform() const {
     return pImpl->platform;
 }
+
+/** Size
+ * Preconditions    : N/A
+ * Postconditions   : Returns an int
+*/
+const int GameDir::size() const {
+    return pImpl->gameFiles.size();
+}
+
 
 /** Operator== Overload
  * Preconditions    : A GameDir object

@@ -22,6 +22,7 @@ add_executable(
   game_test
   tests/GameTest.cc
   tests/GameDirTest.cc
+  tests/LauncherTest.cc
 )
 target_link_libraries(
   game_test
