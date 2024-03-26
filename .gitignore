@@ -31,7 +31,8 @@
 *.out
 *.app
 
-# Google Test
+# Tests and Documentation
 build
+doc
 .vscode
 data

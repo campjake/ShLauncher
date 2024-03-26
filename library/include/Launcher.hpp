@@ -12,15 +12,16 @@ namespace Launcher {
 
 class Launcher {
 public:
-    Launcher();
     Launcher(const fs::path& path);
-
     ~Launcher();
 
+    const Game::Game& getGame(const std::string& gameName) const;
+    const GameDir::GameDir& getGameDir(const std::string& gameDir);
+    void generateAutoComplete();
 private:
     struct Impl;
     std::unique_ptr<Impl> pImpl;
-}
+};
 
 }
 

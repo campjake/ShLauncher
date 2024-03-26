@@ -17,7 +17,7 @@ TEST(DirPathCtor2, BasicAssertions) {
 }
 
 TEST(DirEntryCtor, BasicAssertions) {
-    std::string pathString = "/home/jacoblc/ShLauncher/data/gba";
+    std::string pathString = "/home/jacoblc/ShLauncher/data/nes";
     fs::path pathObject(pathString);
     GameDir::GameDir ndsPathEntry(pathObject);
 
@@ -28,7 +28,7 @@ TEST(DirEntryCtor, BasicAssertions) {
 }
 
 TEST(PrintGames, BasicAssertions) {
-    std::string dirPath = "/home/jacoblc/ShLauncher/data/gba/";
+    std::string dirPath = "/home/jacoblc/ShLauncher/data/nes/";
     fs::path path(dirPath);
     GameDir::GameDir gba(path);
 
@@ -36,10 +36,18 @@ TEST(PrintGames, BasicAssertions) {
 
 }
 
-TEST(GetConsole, BasicAssertions) {
-    std::string dirPath = "/home/jacoblc/ShLauncher/data/gba/";
+TEST(DirSize, BasicAssertions) {
+    std::string dirPath = "/home/jacoblc/ShLauncher/data/nes/";
     fs::path path(dirPath);
     GameDir::GameDir gba(path);
 
-    ASSERT_EQ(gba.getPlatform(), Game::Platform::_GBA);
+    ASSERT_EQ(gba.size(), 29);
+}
+
+TEST(GetConsole, BasicAssertions) {
+    std::string dirPath = "/home/jacoblc/ShLauncher/data/nes";
+    fs::path path(dirPath);
+    GameDir::GameDir gba(path);
+
+    ASSERT_EQ(gba.getPlatform(), Game::Platform::_NES);
 }
