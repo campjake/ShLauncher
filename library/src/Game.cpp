@@ -2,17 +2,20 @@
 
 namespace Game {
 
-/** Implementation for Game Member Variables
- * Used for Pointer to Implementation (pImpl),
- * which will manage this object for its lifetime
-*/
 // TODO - Error prone instantiation of release platform, not guaranteed to be correct
 struct Game::Impl {
-    std::string name;               // Title of Game
-    Platform releasePlatform;       // Platform/Version of Game
-    fs::directory_entry fileName;   // Dir Entry for Game File
-    int referenceCount;             // Reference Counter
+    std::string name;               //!< Title of Game
+    Platform releasePlatform;       //!< Platform/Version of Game
+    fs::directory_entry fileName;   //!< Dir Entry for Game File
+    int referenceCount;             //!< Reference Counter, incremented when Game is opened
 
+    /**
+     * A constructor for the Impl class.
+     *
+     * @param path the path to the file
+     *
+     * @throws ErrorType description of error
+     */
     Impl(std::string path) 
     : fileName(path), referenceCount(0)
     {
@@ -29,6 +32,13 @@ struct Game::Impl {
 
     }
 
+    /**
+     * Initializes an Impl object with the given file path.
+     *
+     * @param path The path to the file.
+     *
+     * @throws None
+     */
     Impl(const fs::path& path) 
     : fileName(path), referenceCount(0)
     {
@@ -46,6 +56,13 @@ struct Game::Impl {
         }
     }
 
+    /**
+     * Initializes an Impl object with the provided directory entry path.
+     *
+     * @param path The directory entry path.
+     *
+     * @throws None
+     */
     Impl(const fs::directory_entry& path) 
     : fileName(path), referenceCount(0)
     {
@@ -67,75 +84,98 @@ struct Game::Impl {
 };
 
 
-/** Game Constructor (String) 
- * Preconditions    : File path must exist
- * Postconditions   : Creates a game with valid state.
-*/
-Game::Game(const std::string& path) 
+/**
+ * Constructs a Game object with the provided file path.
+ *
+ * @param path The path to the game file.
+ *
+ * @pre       The file must exist at the provided path.
+ * @post      Creates a game object with a valid state.
+ */
+Game::Game(const std::string& path)
 : pImpl(std::make_unique<Impl>(path))
 {}
 
-/** Game Constructor (Path) 
- * Preconditions    : File path must exist
- * Postconditions   : Creates a game with valid state.
-*/
+/**
+ * Constructs a Game object with the provided file path.
+ *
+ * @param path The path to the game file.
+ *
+ * @pre       The file must exist at the provided path.
+ * @post      Creates a game object with a valid state.
+ */
 Game::Game(const fs::path& path)
 : pImpl(std::make_unique<Impl>(path))
 {}
 
-/** Game Constructor (Directory Entry) 
- * Preconditions    : Directory Entry must exist
- * Postconditions   : Creates a game with valid state.
-*/
+/**
+ * Constructs a Game object with the provided directory entry.
+ *
+ * @param path The directory entry to the game file.
+ *
+ * @pre       The directory entry must exist.
+ * @post      Creates a game object with a valid state.
+ */
 Game::Game(const fs::directory_entry& path)
-: pImpl(std::make_unique<Impl>(path))
+    : pImpl(std::make_unique<Impl>(path))
 {}
 
-/** Game Destructor
- * Preconditions    : N/A
- * Postconditions   : N/A
-*/
-Game::~Game() = default;
-
-/** Game Move Constructor
- * Preconditions    : A valid existing Game object
- * Postconditions   : Leaves "other" in a valid & destructible state
-*/
+/**
+ * @brief      Game Destructor
+ *
+ * @details    Default destructor.
+ *
+ * @pre        N/A
+ * @post       N/A
+ */
 Game::Game(Game&& other) noexcept 
 : pImpl(std::move(other.pImpl))
 {}
 
-/** getGameName
- * Preconditions    : N/A
- * Postconditions   : Returns a string that maps the the Game's name
-*/
+/**
+ * @brief      Gets the game name.
+ *
+ * @details    Returns a string that maps the game's name. If the name is too
+ *             long it will be truncated and "..." will be appended to the end.
+ *
+ * @return     The game's name.
+ */
 std::string Game::getGameName() const {
-    if(pImpl->name.length() > 49) {
+    if (pImpl->name.length() > 49) {
         return pImpl->name.substr(0, 45) + "...";
-    } else {
-        return pImpl->name;
     }
+    return pImpl->name;
 }
 
-/** getReleasePlatform
- * Preconditions    : N/A
- * Postconditions   : Returns a Platform that maps the the Game's Platform
-*/
+/**
+ * @brief      Gets the game's release platform.
+ *
+ * @details    Returns a Platform that maps the the Game's release platform.
+ *             This Platform is the platform that the game was released on.
+ *
+ * @return     The game's release platform.
+ */
 Platform Game::getReleasePlatform() const {
     return pImpl->releasePlatform;
 }
 
-/** getPath
- * Preconditions    : N/A
- * Postconditions   : Returns a string that maps the the Game's file path
-*/
+/**
+ * @brief      Gets the path to the game's executable file.
+ *
+ * @details    Returns a string that maps the the Game's file path. The
+ *             returned path is a string representation of the path to the
+ *             game's executable file.
+ *
+ * @return     The path to the game's executable file.
+ */
 std::string Game::getPath() const {
     return pImpl->fileName.path().string();
 }
 
-/** platformToString
- * Preconditions    : N/A
- * Postconditions   : Returns a string that maps to the Game's platform
+/**
+ * @brief       Gets the game's platform as a string.
+ *  
+ * @return      Returns a string that maps the Game's platform.
 */
 std::string Game::platformToString() const{
     switch (pImpl->releasePlatform) {
@@ -278,19 +318,33 @@ std::string Game::platformToString() const{
     }
 }
 
-/** Operator== Overload
- * Preconditions    : A valid Game object
- * Postconditions   : Returns true if they have the same path, else false
-*/
+/**
+ * == Operator Overload
+ *
+ * @brief Compares two Game objects for equality.
+ *
+ * @param[in] rhs - The Game object to compare
+ * @return true if the game names and paths are the same, else false
+ */
 bool Game::operator==(const Game& rhs) const {
+    // Compare the game names and paths
     return getGameName() == rhs.getGameName() &&
-            getPath()    == rhs.getPath();
+           getPath()     == rhs.getPath();
 }
 
-/** Operator<< Overload
- * Preconditions    : An ostream object, and a game object
- * Postconditions   : Returns an ostream object for the caller to use
-*/
+/**
+ * \brief Overloaded output stream operator for Game objects.
+ *
+ * This function provides an output stream operator for Game objects,
+ * allowing them to be printed to standard output in a human-readable
+ * format. The function generates a left-justified string containing the
+ * game name and platform, separated by a space.
+ *
+ * \param[in,out] os  The output stream to write to.
+ * \param[in] game   The Game object to write to the stream.
+ *
+ * \return A reference to the output stream.
+ */
 std::ostream& operator<<(std::ostream& os, const Game& game) {
     const std::string platform = game.platformToString();
     os  << std::setw(f.NAME_WIDTH)     << std::left << game.getGameName()
